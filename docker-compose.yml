@@ -1,0 +1,8 @@
+version: '0.0.1'
+
+services:
+  app:
+    image: scrape30kmovies
+    build:
+      context: .
+      dockerfile: ./Dockerfile
