@@ -27,6 +27,8 @@ def getCrewData(url):
             if len(td) == 4:
                 row = [i.text for i in td]
                 href = [i['href'] for i in td[0].find_all('a', href=True)]
+                url = f"https://www.imdb.com{href[0]}"
+                # soup =
                 crew_data.append({
                     "name": re.sub("[^a-zA-Z()' ]+", '', row[1]).strip(),
                     "character": re.sub("[^a-zA-Z()' ]+", '', row[3]).strip(),
@@ -63,6 +65,7 @@ for movie in allMovies:
     languageElement = tree.xpath(
         '//*[@id="titleDetails"]/div[starts-with(@class, "txt-block")]/a[starts-with(@href, "/search/title?title_type")]')
     runtimeElement = tree.xpath('//*[@id="title-overview-widget"]/div[1]/div[2]/div/div[2]/div[2]/div/time')
+    photoElement = soup.find("div",  attrs={"class": "poster"}).find_all("img", src=True)
     keywords = [keyword.text for keyword in keywordsElement]
     genres = [genre for genre in splitSubText[-2].split(',')]
     countries = [country.text for country in countriesElement]
@@ -70,13 +73,18 @@ for movie in allMovies:
     releaseDate = splitSubText[-1]
     productionCo = [company.text for company in soup2.find_all("ul", attrs={"class": "simpleList"})[0].find_all('a')]
     runtime = [re.sub(r'\n', '', rt.text.strip()) for rt in runtimeElement]
+    photo = [i['src'] for i in photoElement]
     try:
         info["id"] = idDriveVideo
         info["title"] = title
+        info["titleSlug"] = 'N/A'
+        info["photos"] = photo
         info["trailer"] = 'N/A'
-        info["video"] = f'https://hls.hdv.fun/imdb/{idDriveVideo}'
-        info["point_votes"] = imdbPointVotes
-        info["votes"] = imdbVotes
+        info["episode"] = f'https://hls.hdv.fun/imdb/{idDriveVideo}'
+        info['status'] = 'N/A'
+        info["views"] = 'N/A'
+        info["imdbVoted"] = imdbPointVotes
+        info["pointsVoted"] = imdbVotes
         info["subtext"] = subtext
         info["director"] = director
         info["cast"] = getCrewData(f"https://www.imdb.com/title/{idDriveVideo}")
@@ -86,9 +94,10 @@ for movie in allMovies:
             info["genres"] = genres
             info["country"] = countries
             info["language"] = languages
-            info["release_date"] = releaseDate
-            info["production_co"] = productionCo
+            info["releaseDate"] = releaseDate
+            info["producers"] = productionCo
             info["runtime"] = runtime
+            info["showTimes"] = 'N/A'
         except AttributeError as e:
             print(e)
 

@@ -1,6 +1,7 @@
 FROM python:3.7.9
-RUN mkdir -p /home/phimlau/sourcecode/scrapemovies
-WORKDIR /home/phimlau/sourcecode/scrapemovies
-COPY setup.txt /home/phimlau/sourcecode/scrapemovies
+RUN mkdir -p /home/phimlau/app
+WORKDIR /home/phimlau/app
+COPY setup.txt /home/phimlau/app
 RUN pip install -r setup.txt
-COPY
+COPY . /home/phimlau/app
+CMD ["python", "scrape.py"]
