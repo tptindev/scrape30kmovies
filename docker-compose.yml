@@ -1,8 +1,8 @@
-version: '0.0.1'
+version: '3.4'
 
 services:
-  app:
-    image: scrape30kmovies:demo
+  scrapte84kmv:
+    image: scrapte84kmv
     build:
       context: .
       dockerfile: ./Dockerfile
