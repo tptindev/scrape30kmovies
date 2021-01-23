@@ -5,9 +5,9 @@ import requests
 from bs4 import BeautifulSoup
 from lxml import html
 
-myclient = pymongo.MongoClient("mongodb://localhost:27017/")
-mydb = myclient["phimlau_db"]
-print(myclient.list_database_names())
+# myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+# mydb = myclient["phimlau_db"]
+# print(myclient.list_database_names())
 
 
 def getCrewData(url):
