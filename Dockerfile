@@ -4,4 +4,4 @@ WORKDIR /home/phimlau/app
 COPY setup.txt /home/phimlau/app
 RUN pip install -r setup.txt
 COPY . /home/phimlau/app
-CMD ["python", "scrape.py"]
+CMD ["python", "./scrape.py"]

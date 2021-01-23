@@ -101,7 +101,6 @@ for movie in allMovies:
 
     except Exception as e:
         print(e)
-        return 
     result = json.dumps(info, indent=4)
     with open("data.txt", "a") as f:
         f.writelines(f"{result} \n")
