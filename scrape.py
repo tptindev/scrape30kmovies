@@ -103,4 +103,6 @@ for movie in allMovies:
 
     except IndexError as e:
         print(e)
-    print(json.dumps(info, indent=4))
+    result = json.dumps(info, indent=4)
+    with open("data.txt", "a") as f:
+        f.writelines(f"{result} \n")
