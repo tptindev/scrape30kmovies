@@ -34,8 +34,9 @@ def getCrewData(url):
                     "character": re.sub("[^a-zA-Z()' ]+", '', row[3]).strip(),
                     "info": f"https://www.imdb.com{href[0]}"
                 })
-    except AttributeError as e:
+    except Exception as e:
         print(e)
+        return 
     return crew_data
 
 
@@ -52,29 +53,29 @@ for movie in allMovies:
     soup = BeautifulSoup(apiGetDetailMovie.text, "html.parser")
     soup2 = BeautifulSoup(apiProductionCo.text, "html.parser")
     title = soup.title.text.split("-")[0]
-    imdbRating = soup.find("div", attrs={"class": "imdbRating"}).text.strip().split("\n")
-    imdbPointVotes = imdbRating[0]
-    imdbVotes = imdbRating[1]
-    subtext = re.sub(r"[^a-zA-Z|\d, ]", '', soup.find("div", {'class': 'subtext'}).text.strip())
-    director = soup.find("div", attrs={"class": "credit_summary_item"}).text.strip().split("\n")[1]
-    storyline = tree.xpath('//*[@id="titleStoryLine"]/div[1]/p/span')
-    keywordsElement = tree.xpath('//*[@id="titleStoryLine"]/div[2]/a[*]/span')
-    splitSubText = subtext.split('|')
-    countriesElement = tree.xpath(
-        '//*[@id="titleDetails"]/div[starts-with(@class, "txt-block")]/a[starts-with(@href, "/search/title?country")]')
-    languageElement = tree.xpath(
-        '//*[@id="titleDetails"]/div[starts-with(@class, "txt-block")]/a[starts-with(@href, "/search/title?title_type")]')
-    runtimeElement = tree.xpath('//*[@id="title-overview-widget"]/div[1]/div[2]/div/div[2]/div[2]/div/time')
-    photoElement = soup.find("div",  attrs={"class": "poster"}).find_all("img", src=True)
-    keywords = [keyword.text for keyword in keywordsElement]
-    genres = [genre for genre in splitSubText[-2].split(',')]
-    countries = [country.text for country in countriesElement]
-    languages = [language.text for language in languageElement]
-    releaseDate = splitSubText[-1]
-    productionCo = [company.text for company in soup2.find_all("ul", attrs={"class": "simpleList"})[0].find_all('a')]
-    runtime = [re.sub(r'\n', '', rt.text.strip()) for rt in runtimeElement]
-    photo = [i['src'] for i in photoElement]
     try:
+        imdbRating = soup.find("div", attrs={"class": "imdbRating"}).text.strip().split("\n")
+        subtext = re.sub(r"[^a-zA-Z|\d, ]", '', soup.find("div", {'class': 'subtext'}).text.strip())
+        director = soup.find("div", attrs={"class": "credit_summary_item"}).text.strip().split("\n")[1]
+        photoElement = soup.find("div",  attrs={"class": "poster"}).find_all("img", src=True)
+        imdbPointVotes = imdbRating[0]
+        imdbVotes = imdbRating[1]
+        storyline = tree.xpath('//*[@id="titleStoryLine"]/div[1]/p/span')
+        keywordsElement = tree.xpath('//*[@id="titleStoryLine"]/div[2]/a[*]/span')
+        splitSubText = subtext.split('|')
+        countriesElement = tree.xpath(
+            '//*[@id="titleDetails"]/div[starts-with(@class, "txt-block")]/a[starts-with(@href, "/search/title?country")]')
+        languageElement = tree.xpath(
+            '//*[@id="titleDetails"]/div[starts-with(@class, "txt-block")]/a[starts-with(@href, "/search/title?title_type")]')
+        runtimeElement = tree.xpath('//*[@id="title-overview-widget"]/div[1]/div[2]/div/div[2]/div[2]/div/time')
+        keywords = [keyword.text for keyword in keywordsElement]
+        genres = [genre for genre in splitSubText[-2].split(',')]
+        countries = [country.text for country in countriesElement]
+        languages = [language.text for language in languageElement]
+        releaseDate = splitSubText[-1]
+        productionCo = [company.text for company in soup2.find_all("ul", attrs={"class": "simpleList"})[0].find_all('a')]
+        runtime = [re.sub(r'\n', '', rt.text.strip()) for rt in runtimeElement]
+        photo = [i['src'] for i in photoElement]
         info["id"] = idDriveVideo
         info["title"] = title
         info["titleSlug"] = 'N/A'
@@ -88,21 +89,19 @@ for movie in allMovies:
         info["subtext"] = subtext
         info["director"] = director
         info["cast"] = getCrewData(f"https://www.imdb.com/title/{idDriveVideo}")
-        try:
-            info["storyline"] = storyline[0].text.strip()
-            info["keywords"] = keywords
-            info["genres"] = genres
-            info["country"] = countries
-            info["language"] = languages
-            info["releaseDate"] = releaseDate
-            info["producers"] = productionCo
-            info["runtime"] = runtime
-            info["showTimes"] = 'N/A'
-        except AttributeError as e:
-            print(e)
+        info["storyline"] = storyline[0].text.strip()
+        info["keywords"] = keywords
+        info["genres"] = genres
+        info["country"] = countries
+        info["language"] = languages
+        info["releaseDate"] = releaseDate
+        info["producers"] = productionCo
+        info["runtime"] = runtime
+        info["showTimes"] = 'N/A'
 
-    except IndexError as e:
+    except Exception as e:
         print(e)
+        return 
     result = json.dumps(info, indent=4)
     with open("data.txt", "a") as f:
         f.writelines(f"{result} \n")
