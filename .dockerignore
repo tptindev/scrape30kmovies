@@ -1,5 +1,5 @@
-**/venv
+/venv
+/.git
 **/.idea
-**/.git
 **/.dockerignore
 README.md
