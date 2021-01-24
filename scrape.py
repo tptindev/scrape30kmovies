@@ -5,9 +5,13 @@ import requests
 from bs4 import BeautifulSoup
 from lxml import html
 
-# myclient = pymongo.MongoClient("mongodb://localhost:27017/")
-# mydb = myclient["phimlau_db"]
-# print(myclient.list_database_names())
+
+client = pymongo.MongoClient("mongodb+srv://vku:vku@lauc2t.4pp7l.mongodb.net/lauc2t?retryWrites=true&w=majority")
+db = client.lauc2t
+movies_collection  = db.movies
+directors_collection = db.directors
+
+
 
 
 def getCrewData(url):
@@ -102,6 +106,4 @@ for movie in allMovies:
     except Exception as e:
         print(e)
     result = json.dumps(info, indent=4)
-    with open("./data.txt", "a") as f:
-        f.write(f"{result} \n")
-        print("done")
+    movies_collection.insert(json.loads(result))
