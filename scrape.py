@@ -103,5 +103,5 @@ for movie in allMovies:
         print(e)
     result = json.dumps(info, indent=4)
     with open("data.txt", "a") as f:
-        f.writelines(f"{result} \n")
+        f.write(f"{result} \n")
         print("done")
