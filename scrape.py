@@ -33,7 +33,7 @@ def no_accent_vietnamese(s):
     s = re.sub(r'[Đ]', 'D', s)
     s = re.sub(r'[đ]', 'd', s)
     s = re.sub(r'[(]', '-', s)
-    s = re.sub(r'[):]', '', s)
+    s = re.sub(r"[):']", '', s)
     s = re.sub(r'\s', '-', s)
     return s.lower()
 
