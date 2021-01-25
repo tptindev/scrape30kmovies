@@ -46,48 +46,49 @@ def getCrewData(url):
 
     # Create a BeautifulSoup object
     soup = BeautifulSoup(r.text, 'html.parser')
+    try:
+        cast_list = soup.find("table", {"class": "cast_list"})
+        trows = cast_list.find_all('tr')
 
-    cast_list = soup.find("table", {"class": "cast_list"})
-
-    trows = cast_list.find_all('tr')
-
-    for tr in trows:
-        td = tr.find_all('td')
-        if len(td) == 4:
-            row = [i.text for i in td]
-            href = [i['href'] for i in td[0].find_all('a', href=True)]
-            url = f"https://www.imdb.com{href[0]}bio?ref_=nm_ov_bio_sm"
-            r = requests.get(url)
-            soup1 = BeautifulSoup(r.text, 'html.parser')
-            try:
-                name = soup1.find('div', attrs={"class": "parent"}).find('a').text.strip()
-                info_star["name"] = name
+        for tr in trows:
+            td = tr.find_all('td')
+            if len(td) == 4:
+                row = [i.text for i in td]
+                href = [i['href'] for i in td[0].find_all('a', href=True)]
+                url = f"https://www.imdb.com{href[0]}bio?ref_=nm_ov_bio_sm"
+                r = requests.get(url)
+                soup1 = BeautifulSoup(r.text, 'html.parser')
                 try:
-                    photo = soup1.find('img', attrs={"class": "poster"}, src=True)['src']
-                    info_star["photo"] = photo
+                    name = soup1.find('div', attrs={"class": "parent"}).find('a').text.strip()
+                    info_star["name"] = name
                     try:
-                        bio = soup1.find('div', attrs={"class": "soda odd"}).find_all('p')[0].text.strip()
-                        info_star["bio"] = bio
+                        photo = soup1.find('img', attrs={"class": "poster"}, src=True)['src']
+                        info_star["photo"] = photo
+                        try:
+                            bio = soup1.find('div', attrs={"class": "soda odd"}).find_all('p')[0].text.strip()
+                            info_star["bio"] = bio
+                        except Exception:
+                            bio = ''
+                            info_star["bio"] = bio
                     except Exception:
-                        bio = ''
-                        info_star["bio"] = bio
+                        photo = ''
+                        info_star["photo"] = photo
                 except Exception:
-                    photo = ''
-                    info_star["photo"] = photo
-            except Exception:
-                name = ''
-                info_star["name"] = name
-            result = stars_collection.find_one({"name": info_star["name"]})
-            if result:
-                stars_ls.append({"_id": result['_id']})
-            else:
-                star = stars_collection.insert_one(dict(info_star))
-                stars_ls.append({"_id": star.inserted_id})
-            crew_data.append({
-                "name": re.sub("[^a-zA-Z()' ]+", '', row[1]).strip(),
-                "character": re.sub("[^a-zA-Z()' ]+", '', row[3]).strip(),
-                "info": f"https://www.imdb.com{href[0]}"
-            })
+                    name = ''
+                    info_star["name"] = name
+                result = stars_collection.find_one({"name": info_star["name"]})
+                if result:
+                    stars_ls.append({"_id": result['_id']})
+                else:
+                    star = stars_collection.insert_one(dict(info_star))
+                    stars_ls.append({"_id": star.inserted_id})
+                crew_data.append({
+                    "name": re.sub("[^a-zA-Z()' ]+", '', row[1]).strip(),
+                    "character": re.sub("[^a-zA-Z()' ]+", '', row[3]).strip(),
+                    "info": f"https://www.imdb.com{href[0]}"
+                })
+    except Exception:
+        stars_ls = []
 
     return stars_ls
 
@@ -260,11 +261,3 @@ for index, movie in enumerate(allMovies):
         print(e)
     movies_collection.insert_one(dict(info))
     print(f"Saved - {index}")
-    import time
-    import os
-    import platform
-    time.sleep(0.2)
-    if platform.system().lower() == "windows":
-        os.system("cls")
-    else:
-        os.system("clear")
