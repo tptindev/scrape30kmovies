@@ -146,7 +146,7 @@ for index, movie in enumerate(allMovies):
     tree = html.fromstring(apiGetDetailMovie.content)
     soup = BeautifulSoup(apiGetDetailMovie.text, "html.parser")
     soup2 = BeautifulSoup(apiProductionCo.text, "html.parser")
-    title = soup.title.text.split("-")[0]
+    title = soup.title.text.split("-")[0].strip()
     stars = getCrewData(f"https://www.imdb.com/title/{idDriveVideo}")
     try:
         imdbRating = soup.find("div", attrs={"class": "imdbRating"}).text.strip().split("\n")
@@ -237,7 +237,7 @@ for index, movie in enumerate(allMovies):
         photo = [i['src'] for i in photoElement]
         # info["id"] = idDriveVideo
         info["title"] = title
-        info["titleSlug"] = 'N/A'
+        info["titleSlug"] = no_accent_vietnamese(title)
         info["photos"] = photo
         info["trailer"] = 'N/A'
         info["episode"] = f'https://hls.hdv.fun/imdb/{idDriveVideo}'
