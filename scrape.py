@@ -4,8 +4,11 @@ import pymongo
 import requests
 from bs4 import BeautifulSoup
 from lxml import html
+from decouple import config
 
-client = pymongo.MongoClient("mongodb+srv://vku:vku@lauc2t.4pp7l.mongodb.net/lauc2t?retryWrites=true&w=majority")
+
+# client = pymongo.MongoClient("mongodb+srv://vku:vku@lauc2t.4pp7l.mongodb.net/lauc2t?retryWrites=true&w=majority")
+client = pymongo.MongoClient(f"mongodb://{config('DB_HOST')}:{config('DB_PORT')}/{config('DB_NAME')}")
 db = client.lauc2t
 movies_collection = db.movies
 directors_collection = db.directors
@@ -116,12 +119,12 @@ def get_directors(url):
     except Exception:
         name = ''
         directors_info["name"]= name
-    result = stars_collection.find_one({"name": directors_info["name"]})
+    result = directors_collection.find_one({"name": directors_info["name"]})
     if result:
         directors_ls.append({"_id": result['_id']})
     else:
-        star = stars_collection.insert_one(dict(directors_info))
-        directors_ls.append({"_id": star.inserted_id})
+        director = directors_collection.insert_one(dict(directors_info))
+        directors_ls.append({"_id": director.inserted_id})
     return directors_ls
 
 
@@ -131,13 +134,15 @@ def get_directors(url):
 
 apiGetAllIdMovies = requests.get("https://hls.hdv.fun/api/oldlist")
 allMovies = json.loads(apiGetAllIdMovies.text)
-for index, movie in enumerate(allMovies):
+dataSize = len([i for i in movies_collection.find()])
+for index, movie in enumerate(allMovies[dataSize:]):
     info = {}
     ls_categories = []
     ls_countries = []
     ls_languages = []
     ls_producers = []
     ls_keywords = []
+    ls_directories = []
     url = "https://hls.hdv.fun/imdb/"
     idDriveVideo = movie["imdb"]
     # idDriveVideo = "tt7286456"
@@ -148,35 +153,29 @@ for index, movie in enumerate(allMovies):
     soup2 = BeautifulSoup(apiProductionCo.text, "html.parser")
     title = soup.title.text.split("-")[0].strip()
     stars = getCrewData(f"https://www.imdb.com/title/{idDriveVideo}")
+    info["title"] = title
+    info["titleSlug"] = no_accent_vietnamese(title)
+    info["trailer"] = 'N/A'
+    info["episode"] = f'https://hls.hdv.fun/imdb/{idDriveVideo}'
+    info['status'] = 'Done'
+    info["views"] = 0
+    info["stars"] = stars
     try:
         imdbRating = soup.find("div", attrs={"class": "imdbRating"}).text.strip().split("\n")
-        subtext = re.sub(r"[^a-zA-Z|\d, ]", '', soup.find("div", {'class': 'subtext'}).text.strip())
-        director = soup.find("div", attrs={"class": "credit_summary_item"}).text.strip().split("\n")[1]
-        director_href = soup.find("div", attrs={"class": "credit_summary_item"}).find('a', href=True)['href']
-        ls_directories = get_directors(f"https://www.imdb.com{director_href}bio?ref_=nm_ov_bio_sm")
-        photoElement = soup.find("div", attrs={"class": "poster"}).find_all("img", src=True)
         imdbPointVotes = imdbRating[0]
         imdbVotes = imdbRating[1]
-        storyline = tree.xpath('//*[@id="titleStoryLine"]/div[1]/p/span')
-        keywordsElement = tree.xpath('//*[@id="titleStoryLine"]/div[2]/a[*]/span')
+        info["imdbVoted"] = imdbPointVotes
+        info["pointsVoted"] = imdbVotes
+    except:
+        imdbRating = ""
+        imdbPointVotes = 0
+        imdbVotes = 0
+        info["imdbVoted"] = imdbPointVotes
+        info["pointsVoted"] = imdbVotes
+    try:
+        subtext = re.sub(r"[^a-zA-Z|\d, ]", '', soup.find("div", {'class': 'subtext'}).text.strip())
         splitSubText = subtext.split('|')
-        countriesElement = tree.xpath(
-            '//*[@id="titleDetails"]/div[starts-with(@class, "txt-block")]/a[starts-with(@href, "/search/title?country")]')
-        languageElement = tree.xpath(
-            '//*[@id="titleDetails"]/div[starts-with(@class, "txt-block")]/a[starts-with(@href, "/search/title?title_type")]')
-        runtimeElement = tree.xpath('//*[@id="title-overview-widget"]/div[1]/div[2]/div/div[2]/div[2]/div/time')
-        keywords = [keyword.text.strip() for keyword in keywordsElement]
-        for i in keywords:
-            dictKeyword = {
-                "name": i,
-                "slug": no_accent_vietnamese(i)
-            }
-            result = keywords_collection.find_one({"name": i})
-            if result:
-                ls_keywords.append({"_id": result['_id']})
-            else:
-                kd = keywords_collection.insert_one(dictKeyword)
-                ls_keywords.append({"_id": kd.inserted_id})
+        releaseDate = splitSubText[-1]
         genres = [genre.strip() for genre in splitSubText[-2].split(',')]
         for i in genres:
             dictGenres = {
@@ -190,6 +189,47 @@ for index, movie in enumerate(allMovies):
                 category = categories_collection.insert_one(dictGenres)
                 ls_categories.append({"_id": category.inserted_id})
 
+        info["releaseDate"] = releaseDate
+    except:
+        subtext = ''
+    try:
+        director_href = soup.find("div", attrs={"class": "credit_summary_item"}).find('a', href=True)['href']
+        ls_directories = get_directors(f"https://www.imdb.com{director_href}bio?ref_=nm_ov_bio_sm")
+    except:
+        director_href = ""
+    try:
+        photoElement = soup.find("div", attrs={"class": "poster"}).find_all("img", src=True)
+        photo = [i['src'] for i in photoElement]
+        info["photos"] = photo
+    except:
+        photoElement = []
+        photo = ""
+        info["photos"] = photo
+    try:
+        storyline = tree.xpath('//*[@id="titleStoryLine"]/div[1]/p/span')
+        info["storyline"] = storyline[0].text.strip()
+    except:
+        storyline = []
+        info["storyline"] = storyline
+    try:
+        keywordsElement = tree.xpath('//*[@id="titleStoryLine"]/div[2]/a[*]/span')
+        keywords = [keyword.text.strip() for keyword in keywordsElement]
+        for i in keywords:
+            dictKeyword = {
+                "name": i,
+                "slug": no_accent_vietnamese(i)
+            }
+            result = keywords_collection.find_one({"name": i})
+            if result:
+                ls_keywords.append({"_id": result['_id']})
+            else:
+                kd = keywords_collection.insert_one(dictKeyword)
+                ls_keywords.append({"_id": kd.inserted_id})
+    except:
+        keyword = []
+    try:
+        countriesElement = tree.xpath(
+            '//*[@id="titleDetails"]/div[starts-with(@class, "txt-block")]/a[starts-with(@href, "/search/title?country")]')
         countries = [country.text.strip() for country in countriesElement]
         for i in countries:
             dictCountries = {
@@ -202,6 +242,11 @@ for index, movie in enumerate(allMovies):
             else:
                 country = countries_collection.insert_one(dictCountries)
                 ls_countries.append({"_id": country.inserted_id})
+    except:
+        countries = []
+    try:
+        languageElement = tree.xpath(
+            '//*[@id="titleDetails"]/div[starts-with(@class, "txt-block")]/a[starts-with(@href, "/search/title?title_type")]')
         languages = [language.text for language in languageElement]
         for i in languages:
             dictLanguage = {
@@ -213,7 +258,16 @@ for index, movie in enumerate(allMovies):
             else:
                 language = languages_collection.insert_one(dictLanguage)
                 ls_languages.append({"_id": language.inserted_id})
-        releaseDate = splitSubText[-1]
+    except:
+        languages = []
+
+    try:
+        runtimeElement = tree.xpath('//*[@id="title-overview-widget"]/div[1]/div[2]/div/div[2]/div[2]/div/time')
+        runtime = [re.sub(r'\n', '', rt.text.strip()) for rt in runtimeElement]
+        info["runtime"] = runtime[0]
+    except:
+        info["runtime"] = ""
+    try:
         productionCo = [company.text.strip() for company in
                         soup2.find_all("ul", attrs={"class": "simpleList"})[0].find_all('a')]
         for i in productionCo:
@@ -232,32 +286,17 @@ for index, movie in enumerate(allMovies):
             else:
                 country = producers_collection.insert_one(dictProducer)
                 ls_producers.append({"_id": country.inserted_id})
+    except:
+        productionCo = []
 
-        runtime = [re.sub(r'\n', '', rt.text.strip()) for rt in runtimeElement]
-        photo = [i['src'] for i in photoElement]
-        # info["id"] = idDriveVideo
-        info["title"] = title
-        info["titleSlug"] = no_accent_vietnamese(title)
-        info["photos"] = photo
-        info["trailer"] = 'N/A'
-        info["episode"] = f'https://hls.hdv.fun/imdb/{idDriveVideo}'
-        info['status'] = 'Done'
-        info["views"] = 0
-        info["imdbVoted"] = imdbPointVotes
-        info["pointsVoted"] = imdbVotes
-        info["director"] = ls_directories
-        info["stars"] = stars
-        info["storyline"] = storyline[0].text.strip()
-        info["keywords"] = ls_keywords
-        info["categories"] = ls_categories
-        info["countries"] = ls_countries
-        info["languages"] = ls_languages
-        info["releaseDate"] = releaseDate
-        info["producers"] = ls_producers
-        info["runtime"] = runtime[0]
-        info["showTimes"] = 'N/A'
+    # info["id"] = idDriveVideo
 
-    except Exception as e:
-        print(e)
+    info["director"] = ls_directories
+    info["keywords"] = ls_keywords
+    info["categories"] = ls_categories
+    info["countries"] = ls_countries
+    info["languages"] = ls_languages
+    info["producers"] = ls_producers
+    info["showTimes"] = 'N/A'
+
     movies_collection.insert_one(dict(info))
-    print(f"Saved - {index}")
