@@ -135,7 +135,8 @@ def get_directors(url):
 apiGetAllIdMovies = requests.get("https://hls.hdv.fun/api/oldlist")
 allMovies = json.loads(apiGetAllIdMovies.text)
 dataSize = len([i for i in movies_collection.find()])
-for index, movie in enumerate(allMovies[dataSize:]):
+test = 20000
+for index, movie in enumerate(allMovies[dataSize:20000]):
     info = {}
     ls_categories = []
     ls_countries = []
