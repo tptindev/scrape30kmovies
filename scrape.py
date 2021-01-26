@@ -7,8 +7,8 @@ from lxml import html
 from decouple import config
 
 
-# client = pymongo.MongoClient("mongodb+srv://vku:vku@lauc2t.4pp7l.mongodb.net/lauc2t?retryWrites=true&w=majority")
-client = pymongo.MongoClient(f"mongodb://{config('DB_HOST')}:{config('DB_PORT')}/{config('DB_NAME')}")
+client = pymongo.MongoClient("mongodb+srv://vku:vku@lauc2t.4pp7l.mongodb.net/lauc2t?retryWrites=true&w=majority")
+# client = pymongo.MongoClient(f"mongodb://{config('DB_HOST')}:{config('DB_PORT')}/{config('DB_NAME')}")
 db = client.lauc2t
 movies_collection = db.movies
 directors_collection = db.directors
