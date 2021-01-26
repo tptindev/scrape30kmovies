@@ -16,5 +16,5 @@ services:
   db:
       image: mongo
       volumes:
-        - home/phimlau/database/db:/data/db
+        - .docker/data/db:/data/db
       restart: always
