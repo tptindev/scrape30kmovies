@@ -2,8 +2,7 @@ version: '3.4'
 
 services:
   scrapte84kmv:
-    image: scrapte84kmv
-    build:
+
       context: .
       dockerfile: ./Dockerfile
     environment:
@@ -16,5 +15,5 @@ services:
   db:
       image: mongo:4.4.3
       volumes:
-        - .docker/data/db:/data/db
+        - /home/phimlau/mongodb/database:/data/db
       restart: unless-stopped
