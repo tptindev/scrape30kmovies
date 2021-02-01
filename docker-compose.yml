@@ -8,13 +8,4 @@ services:
       dockerfile: ./Dockerfile
     environment:
         - NODE_ENV=${NODE_ENV}
-        - DB_HOST=${DB_HOST}
-        - DB_NAME=${DB_NAME}
     restart: always
-    depends_on:
-      - db
-  db:
-      image: mongo
-      volumes:
-        - .docker/data/db:/data/db
-      restart: always

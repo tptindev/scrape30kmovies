@@ -4,11 +4,11 @@ import pymongo
 import requests
 from bs4 import BeautifulSoup
 from lxml import html
+from datetime import date, datetime
 from decouple import config
 
-
-client = pymongo.MongoClient("mongodb+srv://vku:vku@lauc2t.4pp7l.mongodb.net/lauc2t?retryWrites=true&w=majority")
-# client = pymongo.MongoClient(f"mongodb://{config('DB_HOST')}:{config('DB_PORT')}/{config('DB_NAME')}")
+# client = pymongo.MongoClient("mongodb+srv://vku:vku@lauc2t.4pp7l.mongodb.net/lauc2t?retryWrites=true&w=majority")
+client = pymongo.MongoClient(f"mongodb://{config('DB_HOST')}:{config('DB_PORT')}/{config('DB_NAME')}")
 db = client.lauc2t
 movies_collection = db.movies
 directors_collection = db.directors
@@ -118,7 +118,7 @@ def get_directors(url):
             directors_info["photo"] = photo
     except Exception:
         name = ''
-        directors_info["name"]= name
+        directors_info["name"] = name
     result = directors_collection.find_one({"name": directors_info["name"]})
     if result:
         directors_ls.append({"_id": result['_id']})
@@ -128,7 +128,6 @@ def get_directors(url):
     return directors_ls
 
 
-
 # idDriveVideo = "tt7286456"
 # getCrewData(f"https://www.imdb.com/title/{idDriveVideo}")
 
@@ -136,7 +135,7 @@ apiGetAllIdMovies = requests.get("https://hls.hdv.fun/api/oldlist")
 allMovies = json.loads(apiGetAllIdMovies.text)
 dataSize = len([i for i in movies_collection.find()])
 test = 20000
-for index, movie in enumerate(allMovies[dataSize:20000]):
+for index, movie in enumerate(allMovies[dataSize:3]):
     info = {}
     ls_categories = []
     ls_countries = []
@@ -157,7 +156,7 @@ for index, movie in enumerate(allMovies[dataSize:20000]):
     info["title"] = title
     info["titleSlug"] = no_accent_vietnamese(title)
     info["trailer"] = 'N/A'
-    info["episode"] = f'https://hls.hdv.fun/imdb/{idDriveVideo}'
+    info["episode"] = [{"link": f"https://hls.hdv.fun/imdb/{idDriveVideo}"}]
     info['status'] = 'Done'
     info["views"] = 0
     info["stars"] = stars
@@ -166,13 +165,13 @@ for index, movie in enumerate(allMovies[dataSize:20000]):
         imdbPointVotes = imdbRating[0]
         imdbVotes = imdbRating[1]
         info["imdbVoted"] = imdbPointVotes
-        info["pointsVoted"] = imdbVotes
+        info["votes"] = imdbVotes
     except:
         imdbRating = ""
         imdbPointVotes = 0
         imdbVotes = 0
         info["imdbVoted"] = imdbPointVotes
-        info["pointsVoted"] = imdbVotes
+        info["votes"] = imdbVotes
     try:
         subtext = re.sub(r"[^a-zA-Z|\d, ]", '', soup.find("div", {'class': 'subtext'}).text.strip())
         splitSubText = subtext.split('|')
@@ -291,13 +290,16 @@ for index, movie in enumerate(allMovies[dataSize:20000]):
         productionCo = []
 
     # info["id"] = idDriveVideo
-
+    today = date.today().strftime("%m/%d/%Y")
+    timestamp = datetime.now().timestamp()
     info["director"] = ls_directories
     info["keywords"] = ls_keywords
     info["categories"] = ls_categories
     info["countries"] = ls_countries
     info["languages"] = ls_languages
     info["producers"] = ls_producers
+    info["createAt"] = timestamp
+    info["updateAt"] = timestamp
     info["showTimes"] = 'N/A'
 
     movies_collection.insert_one(dict(info))
