@@ -1,4 +1,4 @@
-<mxfile modified="2021-08-17T04:42:12.356Z" host="app.diagrams.net" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36 Edg/92.0.902.73" etag="ZJ4S653xlDvoFvlLNMb2" version="14.9.7" type="github">
+<mxfile modified="2021-08-17T04:44:59.022Z" host="app.diagrams.net" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36 Edg/92.0.902.73" etag="B8bUE5E2c3TmP8f3c49X" version="14.9.7" type="github">
   <diagram id="fbRNorXPzaUcsRLP65hn" name="Page-2">
     <mxGraphModel dx="1896" dy="522" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -8,7 +8,7 @@
           <mxGeometry x="-276.5" y="270" width="50" height="45" as="geometry" />
         </mxCell>
         <mxCell id="TUsmuv-zAOdhjh7f8BB8-5" value="" style="aspect=fixed;perimeter=ellipsePerimeter;html=1;align=center;shadow=0;dashed=0;spacingTop=3;image;image=img/lib/active_directory/server_farm.svg;" parent="TUsmuv-zAOdhjh7f8BB8-1" vertex="1">
-          <mxGeometry x="-20.5" y="400" width="40" height="40" as="geometry" />
+          <mxGeometry x="-22.59" y="400" width="40" height="40" as="geometry" />
         </mxCell>
         <mxCell id="TUsmuv-zAOdhjh7f8BB8-6" value="" style="aspect=fixed;perimeter=ellipsePerimeter;html=1;align=center;shadow=0;dashed=0;spacingTop=3;image;image=img/lib/active_directory/generic_server.svg;" parent="TUsmuv-zAOdhjh7f8BB8-1" vertex="1">
           <mxGeometry x="-197.75" y="510" width="28.000000000000004" height="50" as="geometry" />
@@ -144,7 +144,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="kIp7UFeTLLDX466tH6Km-0" value="" style="aspect=fixed;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;align=center;fillColor=#00188D;shape=mxgraph.azure.computer" parent="TUsmuv-zAOdhjh7f8BB8-1" vertex="1">
-          <mxGeometry x="-25.840000000000032" y="270" width="50" height="45" as="geometry" />
+          <mxGeometry x="-29.250000000000032" y="270" width="50" height="45" as="geometry" />
         </mxCell>
         <mxCell id="kIp7UFeTLLDX466tH6Km-1" value="Client" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;" parent="TUsmuv-zAOdhjh7f8BB8-1" vertex="1">
           <mxGeometry x="-23.590000000000032" y="240" width="50" height="20" as="geometry" />
