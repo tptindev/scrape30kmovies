@@ -1,4 +1,4 @@
-<mxfile modified="2021-08-17T04:33:16.613Z" host="app.diagrams.net" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36 Edg/92.0.902.73" etag="b4vlCyoVT2p4KHAtQe4H" version="14.9.7" type="github">
+<mxfile modified="2021-08-17T04:42:12.356Z" host="app.diagrams.net" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36 Edg/92.0.902.73" etag="ZJ4S653xlDvoFvlLNMb2" version="14.9.7" type="github">
   <diagram id="fbRNorXPzaUcsRLP65hn" name="Page-2">
     <mxGraphModel dx="1896" dy="522" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -55,7 +55,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="TUsmuv-zAOdhjh7f8BB8-45" value="Client" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;" parent="TUsmuv-zAOdhjh7f8BB8-1" vertex="1">
-          <mxGeometry x="-276.5" y="330" width="50" height="20" as="geometry" />
+          <mxGeometry x="-272.75" y="240" width="50" height="20" as="geometry" />
         </mxCell>
         <mxCell id="TUsmuv-zAOdhjh7f8BB8-46" value="Nginx load balancer" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;" parent="TUsmuv-zAOdhjh7f8BB8-1" vertex="1">
           <mxGeometry x="-151" y="400" width="120" height="20" as="geometry" />
@@ -79,7 +79,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="TUsmuv-zAOdhjh7f8BB8-54" value="http://vod.xxx.xyz/hls/path_hls" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;" parent="TUsmuv-zAOdhjh7f8BB8-1" vertex="1">
-          <mxGeometry x="144.5" y="370" width="170" height="20" as="geometry" />
+          <mxGeometry x="214.5" y="650" width="170" height="20" as="geometry" />
         </mxCell>
         <mxCell id="TUsmuv-zAOdhjh7f8BB8-56" value="&lt;span&gt;id =&amp;nbsp;&lt;/span&gt;&lt;span&gt;60cc86ba20fee400122f1b82&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;" parent="TUsmuv-zAOdhjh7f8BB8-1" vertex="1">
           <mxGeometry x="-382" y="510" width="190" height="20" as="geometry" />
@@ -97,7 +97,7 @@
           <mxGeometry x="-105.5" y="440" width="20" height="20" as="geometry" />
         </mxCell>
         <mxCell id="TUsmuv-zAOdhjh7f8BB8-61" value="3" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;" parent="TUsmuv-zAOdhjh7f8BB8-1" vertex="1">
-          <mxGeometry x="-25.5" y="590" width="20" height="20" as="geometry" />
+          <mxGeometry x="-28.59" y="662" width="20" height="20" as="geometry" />
         </mxCell>
         <mxCell id="TUsmuv-zAOdhjh7f8BB8-62" value="" style="endArrow=classic;startArrow=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="TUsmuv-zAOdhjh7f8BB8-1" source="TUsmuv-zAOdhjh7f8BB8-67" target="TUsmuv-zAOdhjh7f8BB8-19" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
@@ -106,7 +106,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="TUsmuv-zAOdhjh7f8BB8-63" value="4" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;" parent="TUsmuv-zAOdhjh7f8BB8-1" vertex="1">
-          <mxGeometry x="-8.590000000000032" y="840" width="20" height="20" as="geometry" />
+          <mxGeometry x="-14.250000000000032" y="840" width="20" height="20" as="geometry" />
         </mxCell>
         <mxCell id="TUsmuv-zAOdhjh7f8BB8-67" value="no cache" style="rhombus;whiteSpace=wrap;html=1;" parent="TUsmuv-zAOdhjh7f8BB8-1" vertex="1">
           <mxGeometry x="-97.75" y="790" width="65.5" height="30" as="geometry" />
@@ -147,13 +147,13 @@
           <mxGeometry x="-25.840000000000032" y="270" width="50" height="45" as="geometry" />
         </mxCell>
         <mxCell id="kIp7UFeTLLDX466tH6Km-1" value="Client" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;" parent="TUsmuv-zAOdhjh7f8BB8-1" vertex="1">
-          <mxGeometry x="-25.840000000000032" y="330" width="50" height="20" as="geometry" />
+          <mxGeometry x="-23.590000000000032" y="240" width="50" height="20" as="geometry" />
         </mxCell>
         <mxCell id="kIp7UFeTLLDX466tH6Km-2" value="" style="aspect=fixed;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;align=center;fillColor=#00188D;shape=mxgraph.azure.computer" parent="TUsmuv-zAOdhjh7f8BB8-1" vertex="1">
           <mxGeometry x="204.5" y="270" width="50" height="45" as="geometry" />
         </mxCell>
         <mxCell id="kIp7UFeTLLDX466tH6Km-3" value="Client" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;" parent="TUsmuv-zAOdhjh7f8BB8-1" vertex="1">
-          <mxGeometry x="204.5" y="330" width="50" height="20" as="geometry" />
+          <mxGeometry x="204.5" y="240" width="50" height="20" as="geometry" />
         </mxCell>
         <mxCell id="kIp7UFeTLLDX466tH6Km-4" value="" style="endArrow=classic;startArrow=classic;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontStyle=1" parent="TUsmuv-zAOdhjh7f8BB8-1" source="kIp7UFeTLLDX466tH6Km-0" target="TUsmuv-zAOdhjh7f8BB8-5" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
@@ -181,6 +181,15 @@
             <mxPoint x="-230" y="620" as="sourcePoint" />
             <mxPoint x="-165.83999999999992" y="572.05" as="targetPoint" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="N2gvCy9A01GcDYyGLqe3-3" value="" style="endArrow=classic;html=1;entryX=0;entryY=1;entryDx=0;entryDy=0;exitX=1.005;exitY=0.275;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="TUsmuv-zAOdhjh7f8BB8-1" source="N2gvCy9A01GcDYyGLqe3-4" target="TUsmuv-zAOdhjh7f8BB8-6">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-400" y="610" as="sourcePoint" />
+            <mxPoint x="-50" y="530" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="N2gvCy9A01GcDYyGLqe3-4" value="&lt;h1&gt;API server&lt;/h1&gt;&lt;p&gt;- nhận request&lt;/p&gt;&lt;p&gt;- kiểm tra cache&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;span style=&quot;white-space: pre&quot;&gt;	&lt;/span&gt;+ nếu có: trả về thuwmuc/playlist.m3u8&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;white-space: pre&quot;&gt;	&lt;/span&gt;+ chưa:&amp;nbsp;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;white-space: pre&quot;&gt;	&lt;/span&gt;&lt;span style=&quot;white-space: pre&quot;&gt;	&lt;/span&gt;1.&amp;nbsp;đến db lấy driveId -&amp;gt; thực hiện tải và encode(mp4 -&amp;gt; m3u8)&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;white-space: pre&quot;&gt;	&lt;/span&gt;&lt;span style=&quot;white-space: pre&quot;&gt;	&lt;/span&gt;2. xoá file mp4 và backup hls đến drive&amp;nbsp;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;white-space: pre&quot;&gt;	&lt;/span&gt;&lt;span style=&quot;white-space: pre&quot;&gt;	&lt;/span&gt;3. cache path hls vừa tạo&lt;br&gt;&lt;/p&gt;&lt;p&gt;- response path link/path_hls&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="TUsmuv-zAOdhjh7f8BB8-1">
+          <mxGeometry x="-820" y="560" width="400" height="510" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
